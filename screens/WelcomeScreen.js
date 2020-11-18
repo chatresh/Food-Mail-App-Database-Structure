@@ -1,3 +1,4 @@
+
 import React,{Component}from 'react';
 import {
     View,
@@ -8,13 +9,16 @@ import {
     StyleSheet,
     TouchableOpacity,
     Alert,
-    ScrollView} from 'react-native';
+    ScrollView
+    } from 'react-native';
 
-import SantaAnimation from '../components/SantaClaus.js';
+
 import db from '../config';
 import firebase from 'firebase';
-import { RFValue } from "react-native-responsive-fontsize";
+
+
 import {Input} from 'react-native-elements'
+import { RFValue } from "react-native-responsive-fontsize";
 
 
 export default class WelcomeScreen extends Component{
@@ -28,8 +32,7 @@ export default class WelcomeScreen extends Component{
       address:'',
       contact:'',
       confirmPassword:'',
-      isModalVisible:'false',
-      isBookRequestActive:false,
+      isModalVisible:false,
 
     }
   }
@@ -46,9 +49,8 @@ export default class WelcomeScreen extends Component{
          contact:this.state.contact,
          email_id:this.state.emailId,
          address:this.state.address,
-         isBookRequestActive:false
        })
-       return  Alert.alert(
+       return alert(
             'User Added Successfully',
             '',
             [
@@ -60,7 +62,7 @@ export default class WelcomeScreen extends Component{
        // Handle Errors here.
        var errorCode = error.code;
        var errorMessage = error.message;
-       return Alert.alert(errorMessage)
+       return alert(errorMessage)
      });
    }
  }
@@ -68,12 +70,12 @@ export default class WelcomeScreen extends Component{
 userLogin = (emailId, password)=>{
    firebase.auth().signInWithEmailAndPassword(emailId, password)
    .then(()=>{
-     this.props.navigation.navigate('DonateBooks')
+     this.props.navigation.navigate("HomeScreen")
    })
    .catch((error)=> {
      var errorCode = error.code;
      var errorMessage = error.message;
-     return Alert.alert(errorMessage)
+     return alert(errorMessage)
    })
  }
 
@@ -84,83 +86,67 @@ showModal = ()=>{
     transparent={true}
     visible={this.state.isModalVisible}
     >
-    <View style={styles.modalContainer}>
-      <ScrollView style={{width:'100%'}}>
-        <KeyboardAvoidingView style={styles.KeyboardAvoidingView}>
-        <Text
-          style={styles.modalTitle}
-          >Registration</Text>
-        <Input
-          style={styles.formTextInput}
-          placeholder ={"First Name"}
-          maxLength ={8}
-          onChangeText={(text)=>{
-            this.setState({
-              firstName: text
-            })
-          }}
-        />
-        <Input
-          style={styles.formTextInput}
-          placeholder ={"Last Name"}
-          maxLength ={8}
-          onChangeText={(text)=>{
-            this.setState({
-              lastName: text
-            })
-          }}
-        />
-        <Input
-          style={styles.formTextInput}
-          placeholder ={"Contact"}
-          maxLength ={10}
-          keyboardType={'numeric'}
-          onChangeText={(text)=>{
-            this.setState({
-              contact: text
-            })
-          }}
-        />
-        <Input
-          style={styles.formTextInput}
-          placeholder ={"Address"}
-          multiline = {true}
-          onChangeText={(text)=>{
-            this.setState({
-              address: text
-            })
-          }}
-        />
-        <Input
-          style={styles.formTextInput}
-          placeholder ={"Email"}
-          keyboardType ={'email-address'}
-          onChangeText={(text)=>{
-            this.setState({
-              emailId: text
-            })
-          }}
-        /><Input
-          style={styles.formTextInput}
-          placeholder ={"Password"}
-          secureTextEntry = {true}
-          onChangeText={(text)=>{
-            this.setState({
-              password: text
-            })
-          }}
-        /><Input
-          style={styles.formTextInput}
-          placeholder ={"Confrim Password"}
-          secureTextEntry = {true}
-          onChangeText={(text)=>{
-            this.setState({
-              confirmPassword: text
-            })
-          }}
-        />
-        <View style={styles.modalBackButton}>
-          <TouchableOpacity
+   <View style={{justifyContent:"center",alignItems:"center",borderRadius:20,borderWidth:2}}>
+    <Text style={styles.modalTitle}>Register</Text>
+    <Input
+    style={styles.formTextInput}
+    placeholder="First Name"
+    onChangeText={(text)=>{
+      this.setState({firstName:text})
+    }}
+    value={this.state.firstName}
+   />
+   <Input
+    style={styles.formTextInput}
+    placeholder="Last Name"
+    onChangeText={(text)=>{
+      this.setState({lastName:text})
+    }}
+    value={this.state.lastName}
+   />
+   <Input
+    style={styles.formTextInput}
+    placeholder="Address"
+    onChangeText={(text)=>{
+      this.setState({address:text})
+    }}
+    value={this.state.address}
+   />
+   <Input
+    style={styles.formTextInput}
+    placeholder="Contact"
+    onChangeText={(text)=>{
+      this.setState({contact:text})
+    }}
+    value={this.state.contact}
+   />
+   <Input
+    style={styles.formTextInput}
+    placeholder="EmailId"
+    onChangeText={(text)=>{
+      this.setState({emailId:text})
+    }}
+    value={this.state.emailId}
+   />
+   <Input
+    style={styles.formTextInput}
+    placeholder="Password"
+    secureTextEntry={true}
+    onChangeText={(text)=>{
+      this.setState({password:text})
+    }}
+    value={this.state.password}
+   />
+   <Input
+    style={styles.formTextInput}
+    placeholder="confirm Password"
+     secureTextEntry={true}
+    onChangeText={(text)=>{
+      this.setState({confirmPassword:text})
+    }}
+    value={this.state.confirmPassword}
+   />
+ <TouchableOpacity
             style={styles.registerButton}
             onPress={()=>
               this.userSignUp(this.state.emailId, this.state.password, this.state.confirmPassword)
@@ -174,12 +160,10 @@ showModal = ()=>{
             style={styles.cancelButton}
             onPress={()=>this.setState({"isModalVisible":false})}
           >
-          <Text style={{color:'#ff5722'}}>Cancel</Text>
+          <Text style={styles.registerButtonText}>Cancel</Text>
           </TouchableOpacity>
-        </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </View>
+
+   </View>
   </Modal>
 )
 }
@@ -194,7 +178,7 @@ showModal = ()=>{
           }
         <View style={{justifyContent:'center', alignItems:'center'}}>
      
-          <Text style={styles.title}>Book Santa</Text>
+          <Text style={styles.title}>Food Mail</Text>
         </View>
         <View>
             <Input
@@ -218,7 +202,7 @@ showModal = ()=>{
           }}
         />
         <TouchableOpacity
-           style={[styles.button,{marginBottom:20, marginTop:20}]}
+           style={[styles.button,{marginBottom:20, marginTop:50}]}
            onPress = {()=>{
              this.userLogin(this.state.emailId, this.state.password)
            }}
@@ -227,7 +211,25 @@ showModal = ()=>{
          </TouchableOpacity>
 
          <TouchableOpacity
-           style={styles.button}
+           style={{
+              width:200,
+              height:50,
+              justifyContent:'center',
+   alignItems:'center',
+   borderRadius:25,
+   backgroundColor:"blue",
+   marginLeft:300,
+   marginTop:-70,
+   shadowColor: "#000",
+   shadowOffset: {
+      width: 0,
+      height: 8,
+   },
+   shadowOpacity: 0.30,
+   shadowRadius: 10.32,
+   elevation: 16,
+   padding: 10
+           }}
            onPress={()=>this.setState({ isModalVisible:true})}
            >
            <Text style={styles.buttonText}>SignUp</Text>
@@ -241,7 +243,7 @@ showModal = ()=>{
 const styles = StyleSheet.create({
   container:{
    flex:1,
-   backgroundColor:'#F8BE85',
+   backgroundColor:'white',
    alignItems: 'center',
    justifyContent: 'center'
  },
@@ -251,14 +253,14 @@ const styles = StyleSheet.create({
    alignItems:'center',
  },
  title :{
-   fontSize:RFValue(65),
-   fontWeight:'300',
+   fontSize:RFValue(35),
+   fontWeight:'500',
    paddingBottom:RFValue(30),
-   color : '#ff3d00'
+   color : 'blue'
  },
  loginBox:{
-   width:RFValue(300),
-   height: RFValue(40),
+   width:RFValue(500),
+   height: RFValue(80),
    borderBottomWidth: 1.5,
    borderColor : '#ff8a65',
    fontSize: RFValue(20),
@@ -274,8 +276,8 @@ const styles = StyleSheet.create({
    justifyContent:'center',
    alignSelf:'center',
    fontSize:RFValue(30),
-   color:'#ff5722',
-   margin:RFValue(50)
+   color:'blue',
+   margin:RFValue(20)
  },
  modalContainer:{
    flex:1,
@@ -299,16 +301,16 @@ const styles = StyleSheet.create({
    padding:RFValue(10)
     },
  registerButton:{
-   width:RFValue(200),
+   width:RFValue(100),
    height:RFValue(40),
    alignItems:'center',
    justifyContent:'center',
    borderWidth:1,
    borderRadius:RFValue(10),
-   marginTop:RFValue(30)
+   marginTop:RFValue(15)
  },
  registerButtonText:{
-   color:'#ff5722',
+   color:'blue',
    fontSize:RFValue(15),
    fontWeight:'bold'
  },
@@ -321,12 +323,14 @@ const styles = StyleSheet.create({
  },
 
  button:{
-   width:300,
+   width:200,
    height:50,
    justifyContent:'center',
    alignItems:'center',
    borderRadius:25,
-   backgroundColor:"#ff9800",
+   backgroundColor:"blue",
+   marginLeft:-10,
+   marginTop:-50,
    shadowColor: "#000",
    shadowOffset: {
       width: 0,

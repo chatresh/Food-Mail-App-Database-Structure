@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert} from 'react-native';
-import MyHeader from '../components/MyHeader'
 import db from '../config'
 import firebase from 'firebase'
 import {Input} from 'react-native-elements'
@@ -67,7 +66,6 @@ export default class SettingScreen extends Component{
   render(){
     return(
       <View style={styles.container} >
-        <MyHeader title="Settings" navigation={this.props.navigation}/>
         <View style={styles.formContainer}>
             <Input
               style={styles.formTextInput}
